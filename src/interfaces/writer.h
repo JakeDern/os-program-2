@@ -12,6 +12,7 @@
  * @param f the file to write to
  * @param q the queue which holds the strings 
 **/
+// TODO determine what this return type should be
 extern void writeStrings(FILE *f, Queue *q);
 
 #endif
