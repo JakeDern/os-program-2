@@ -1,7 +1,7 @@
 #ifndef _MUNCHONE
 #define _MUNCHONE
 
-#include "../types/synchronized_queue.h";
+#include "../types/synchronized_queue.h"
 
 /**
  * Begins processing strings from the incoming queue
