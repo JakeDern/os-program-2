@@ -7,6 +7,9 @@ typedef struct Queue {
     int dequeueCount;
     int enqueueBlockCount;
     int dequeuBlockCount;
+    int head;
+    int tail;
+    int size;
     // TODO determine synchronization vars needed for the struct
 } Queue;
 
@@ -17,7 +20,7 @@ typedef struct Queue {
  * @returns pointer to a new Queue struct or null
  * on failure
 **/
-extern Queue *createStringQueue(int size);
+extern Queue *CreateStringQueue(int size);
 
 /**
  * Enqueues the provided string if the queue is not
@@ -35,7 +38,7 @@ extern void EnqueueString(Queue *q, char *string);
  * @param q the queue
  * @returns char *pointer to the dequeued string
 **/
-extern char *dequeueString(Queue *q);
+extern char *DequeueString(Queue *q);
 
 /**
  * Prints available statistics about the given
@@ -43,12 +46,12 @@ extern char *dequeueString(Queue *q);
  *
  * @param q the queue
 **/
-extern void printQueueStats(Queue *q);
+extern void PrintQueueStats(Queue *q);
 
 /**
  * Frees all memory associated with the given queue,
  * including its contents.  
 **/
-extern void freeQueue(Queue *q);
+extern void FreeQueue(Queue *q);
 
 #endif
