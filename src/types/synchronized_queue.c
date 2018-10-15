@@ -69,10 +69,11 @@ Queue * CreateStringQueue(int size) {
 
 /** @override */
 void EnqueueString(Queue *q, char *string) {
-  // TODO mutual exclusion
+  // grab the lock and block if full
+  pthread_mutex_lock(&(q->mutex));
   if (isFull(q)) {
-    printf("ERROR enqueue on full queue\n");
-    exit(1);
+    // printf("ERROR enqueue on full queue\n");
+    pthread_cond_wait(&(q->enqueueLine), &(q->mutex));
   }
 
   //Enqueue
@@ -83,14 +84,18 @@ void EnqueueString(Queue *q, char *string) {
     (q->items)[tailIdx] = string;
     q->tail = tailIdx;
   }
+
+  // notify dequeue and free the lock
+  pthread_cond_signal(&(q->dequeueLine));
+  pthread_mutex_unlock(&(q->mutex));
 }
 
 /** @override */
 char * DequeueString(Queue *q) {
-  // TODO mutual exclusion
+  // grab lock and block if empty
+  pthread_mutex_lock(&(q->mutex));
   if (isEmpty(q)) {
-    printf("ERROR dequeue on empty queue\n");
-    exit(1);
+    pthread_cond_wait(&(q->dequeueLine), &(q->mutex));
   }
 
   // remove string
@@ -101,6 +106,10 @@ char * DequeueString(Queue *q) {
   (q->items)[q->head] = NULL;
   q->head = headIdx;
 
+  // signal enqueue and free the lock
+  pthread_cond_signal(&(q->enqueueLine));
+  pthread_mutex_unlock(&(q->mutex));
+
   return string;
 }
 
@@ -108,11 +117,15 @@ char * DequeueString(Queue *q) {
 void PrintQueueStats(Queue *q) {
   // TODO mutual exclusion
   // TODO implement
+  p_mutex_lock(&(q->mutex));
   printf("First item: %s, head: %d, tail: %d, size: %d\n",
       (q->items)[0], q->head, q->tail, getSize(q));
+  p_mutex_unlock(&(q->mutex));
 }
 
 void printQueue(Queue *q) {
+  // TODO remove
+  p_mutex_lock(&(q->mutex));
   int size = q->size;
   char **items = q->items;
   printf("[ ");
@@ -128,12 +141,13 @@ void printQueue(Queue *q) {
     }
   }
   printf("]\n");
+  p_mutex_unlock(&(q->mutex));
 }
 
 /** @override */
 void FreeQueue(Queue *q) {
-  // TODO mutual exclusion
   free(q->items);
+  pthread_mutex_destroy(&(q->mutex));
   free(q);
 }
 
@@ -143,7 +157,6 @@ void FreeQueue(Queue *q) {
  * queue
  * */
 int getSize(Queue *q) {
-  // TODO mutual exclusion
   int headIdx = q->head;
   int tailIdx = q->tail;
   int size = q->size;
@@ -160,7 +173,6 @@ int getSize(Queue *q) {
  * @return 1 if and only if this queue is empty, 0 otherwise
  * */
 int isEmpty(Queue *q) {
-  // TODO mutual exclusion
   int head = q->head;
   char *headString = (q->items)[head];
 
@@ -174,7 +186,6 @@ int isEmpty(Queue *q) {
  * @return 1 if and only if this queue is full, 0 otherwise
  * */
 int isFull(Queue *q) {
-  // TODO mutual exclusion
   int tail = q->tail;
   int head = q->head;
   int size = q->size;
