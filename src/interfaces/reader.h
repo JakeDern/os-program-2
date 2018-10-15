@@ -12,6 +12,6 @@
  * @param q queue to feed data to 
 **/
 // TODO: figure out return type
-extern void feedInput(Queue *q);
+extern void feedInput(Queue *q, int buffSize);
 
 #endif
