@@ -6,12 +6,12 @@
 
 /**
  * Instructs the reader to begin feeding line information
- * from the specified file to the specified queue
+ * from stdin to the first queue. Will reject any input
+ * larger than the buffer size and print an error message
  *
- * @param f file to read from
  * @param q queue to feed data to 
 **/
 // TODO: figure out return type
-extern void feedFile(FILE* f, Queue *q);
+extern void feedInput(Queue *q);
 
 #endif
