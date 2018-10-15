@@ -147,7 +147,7 @@ int getSize(Queue *q) {
   int headIdx = q->head;
   int tailIdx = q->tail;
   int size = q->size;
-  // head - tail + 1 is 1 even if queue is empty
+
   if (isEmpty(q)) return 0;
 
   int diff = headIdx - tailIdx;
@@ -163,7 +163,7 @@ int isEmpty(Queue *q) {
   // TODO mutual exclusion
   int head = q->head;
   char *headString = (q->items)[head];
-  //printf("headString: %s, head: %d\n", headString, head);
+
   return headString == NULL;
 }
 
