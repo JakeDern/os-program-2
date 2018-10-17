@@ -13,18 +13,32 @@ int main(int argc, char **argv) {
 
 /** @override */
 void feedInput(Queue *q, int buffSize) {
-  char buff[buffSize];
-  int count = 0;
-  while(fgets(buff, buffSize, stdin) != NULL) {
-    int strSize = strlen(buff);
-    if (buff[strSize - 1] != '\n' && buff[strSize-1] != EOF) {
-      flushInput();
-      perror("input exceeded buffer size");
-      continue;
+  char *buff = malloc(sizeof(char) * buffSize);
+  int charCount = 0;
+  int lineCount = 0;
+
+  while(1) {
+    char c = getchar();
+    buff[charCount] = c;
+    charCount++;
+    if (c == '\n') {
+       // TODO enqueue string
+      printf("line %d: %s", lineCount, buff);
+      free(buff);
+      buff = malloc(sizeof(char) * buffSize);
+      lineCount++;
+      charCount = 0;
+    } else if (c == EOF) {
+      printf("line %d: %s", lineCount, buff);
+      break;
     }
-    // TODO enqueue string
-    printf("line %d:, %s", count, buff);
-    count++;
+    
+    if(charCount == buffSize) {
+      printf("Input too long, flushing buffer\n");
+      flushInput();
+      charCount = 0;
+    }
+
   }
   // TODO enque null pointer
 }
