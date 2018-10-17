@@ -64,16 +64,25 @@ Queue * CreateStringQueue(int size) {
   q->head = 0;
   q->tail = 0;
   q->size = size;
+  q->mutex = malloc(sizeof(pthread_mutex_t));
+  q->enqueueLine = malloc(sizeof(pthread_cond_t));
+  q->dequeueLine = malloc(sizeof(pthread_cond_t));
+
+  pthread_mutex_init(q->mutex, NULL);
+  pthread_cond_init(q->enqueueLine, NULL);
+  pthread_cond_init(q->dequeueLine, NULL);
+  
+  // TODO init mutex and cond vars
   return q;
 }
 
 /** @override */
 void EnqueueString(Queue *q, char *string) {
   // grab the lock and block if full
-  pthread_mutex_lock(&(q->mutex));
+  pthread_mutex_lock((q->mutex));
   if (isFull(q)) {
     // printf("ERROR enqueue on full queue\n");
-    pthread_cond_wait(&(q->enqueueLine), &(q->mutex));
+    pthread_cond_wait((q->enqueueLine), (q->mutex));
   }
 
   //Enqueue
@@ -86,16 +95,16 @@ void EnqueueString(Queue *q, char *string) {
   }
 
   // notify dequeue and free the lock
-  pthread_cond_signal(&(q->dequeueLine));
-  pthread_mutex_unlock(&(q->mutex));
+  pthread_cond_signal((q->dequeueLine));
+  pthread_mutex_unlock((q->mutex));
 }
 
 /** @override */
 char * DequeueString(Queue *q) {
   // grab lock and block if empty
-  pthread_mutex_lock(&(q->mutex));
+  pthread_mutex_lock((q->mutex));
   if (isEmpty(q)) {
-    pthread_cond_wait(&(q->dequeueLine), &(q->mutex));
+    pthread_cond_wait((q->dequeueLine), (q->mutex));
   }
 
   // remove string
@@ -107,8 +116,8 @@ char * DequeueString(Queue *q) {
   q->head = headIdx;
 
   // signal enqueue and free the lock
-  pthread_cond_signal(&(q->enqueueLine));
-  pthread_mutex_unlock(&(q->mutex));
+  pthread_cond_signal((q->enqueueLine));
+  pthread_mutex_unlock((q->mutex));
 
   return string;
 }
@@ -117,15 +126,15 @@ char * DequeueString(Queue *q) {
 void PrintQueueStats(Queue *q) {
   // TODO mutual exclusion
   // TODO implement
-  p_mutex_lock(&(q->mutex));
+  p_mutex_lock((q->mutex));
   printf("First item: %s, head: %d, tail: %d, size: %d\n",
       (q->items)[0], q->head, q->tail, getSize(q));
-  p_mutex_unlock(&(q->mutex));
+  p_mutex_unlock((q->mutex));
 }
 
 void printQueue(Queue *q) {
   // TODO remove
-  p_mutex_lock(&(q->mutex));
+  p_mutex_lock((q->mutex));
   int size = q->size;
   char **items = q->items;
   printf("[ ");
@@ -141,13 +150,13 @@ void printQueue(Queue *q) {
     }
   }
   printf("]\n");
-  p_mutex_unlock(&(q->mutex));
+  p_mutex_unlock((q->mutex));
 }
 
 /** @override */
 void FreeQueue(Queue *q) {
   free(q->items);
-  pthread_mutex_destroy(&(q->mutex));
+  pthread_mutex_destroy((q->mutex));
   free(q);
 }
 
