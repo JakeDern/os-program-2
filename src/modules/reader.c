@@ -13,27 +13,50 @@ int main(int argc, char **argv) {
 
 /** @override */
 void feedInput(Queue *q, int buffSize) {
-  char buff[buffSize];
-  int count = 0;
-  while(fgets(buff, buffSize, stdin) != NULL) {
-    int strSize = strlen(buff);
-    if (buff[strSize - 1] != '\n' && buff[strSize-1] != EOF) {
-      flushInput();
-      perror("input exceeded buffer size");
-      continue;
+  char *buff;
+  if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
+  int charCount = 0;
+  int lineCount = 0;
+
+  while(1) {
+    char c = getchar();
+    charCount++;
+
+    // no room left
+    if(charCount == buffSize) {
+      // flush input
+      printf("Input too long, flushing stdin \n");
+      while ( (c = getchar()) != '\n' && c != EOF) {}
+      if (c == EOF) { break; }
+      charCount = 0;
+
+      // free buff and allocate new string
+      free(buff);
+      if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
+    } else {
+      buff[charCount - 1] = c;
+      // newline indicates more strings to come
+      if(c == '\n') {
+        buff[charCount] = '\0';
+        printf("line %d: %s", lineCount, buff);
+        // TODO enqueue
+        charCount = 0;
+        lineCount++;
+
+        free(buff);
+        if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
+      // EOF indicates no more strings
+      } else if (c == EOF) {
+        // TODO decide to overrite EOF with null terminator, or
+        // include it in the string
+        buff[charCount] = '\0';
+        printf("line %d: %s\n", lineCount, buff);
+
+        free(buff);
+        break;
+      }
     }
-    // TODO enqueue string
-    printf("line %d:, %s", count, buff);
-    count++;
   }
   // TODO enque null pointer
-}
-
-/**
- * Flushes the remaining characters from stdin
- * */
-void flushInput() {
-  char next;
-  while ( (next = getchar()) != '\n' && next != EOF) {}
 }
 
