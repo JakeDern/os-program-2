@@ -1,4 +1,5 @@
 #include "./synchronized_queue.h"
+#include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -67,7 +68,7 @@ Queue * CreateStringQueue(int size) {
   q->mutex = malloc(sizeof(pthread_mutex_t));
   q->enqueueLine = malloc(sizeof(pthread_cond_t));
   q->dequeueLine = malloc(sizeof(pthread_cond_t));
-
+  
   pthread_mutex_init(q->mutex, NULL);
   pthread_cond_init(q->enqueueLine, NULL);
   pthread_cond_init(q->dequeueLine, NULL);
@@ -126,15 +127,15 @@ char * DequeueString(Queue *q) {
 void PrintQueueStats(Queue *q) {
   // TODO mutual exclusion
   // TODO implement
-  p_mutex_lock((q->mutex));
+  pthread_mutex_lock((q->mutex));
   printf("First item: %s, head: %d, tail: %d, size: %d\n",
       (q->items)[0], q->head, q->tail, getSize(q));
-  p_mutex_unlock((q->mutex));
+  pthread_mutex_unlock((q->mutex));
 }
 
 void printQueue(Queue *q) {
   // TODO remove
-  p_mutex_lock((q->mutex));
+  pthread_mutex_lock((q->mutex));
   int size = q->size;
   char **items = q->items;
   printf("[ ");
@@ -150,7 +151,7 @@ void printQueue(Queue *q) {
     }
   }
   printf("]\n");
-  p_mutex_unlock((q->mutex));
+  pthread_mutex_unlock((q->mutex));
 }
 
 /** @override */
