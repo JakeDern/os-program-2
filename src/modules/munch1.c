@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char **argv) {
-  munchOne(NULL, NULL);
-}
+// int main(int argc, char **argv) {
+//   munchOne(NULL, NULL);
+// }
 
 void munchOne(Queue *in, Queue *out) {
   char *str = malloc(30);

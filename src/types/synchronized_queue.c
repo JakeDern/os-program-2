@@ -9,52 +9,52 @@ int isFull(Queue *q);
 int getSize(Queue *q);
 void printQueue(Queue *q);
 
-int main(int argc, char **argv) {
-  Queue *q = CreateStringQueue(10);
-  char *s = malloc(3);
-  strcpy(s, "aa");
-  EnqueueString(q, s);
+// int main(int argc, char **argv) {
+//   Queue *q = CreateStringQueue(10);
+//   char *s = malloc(3);
+//   strcpy(s, "aa");
+//   EnqueueString(q, s);
 
-  for(int i = 0; i < 9; i++) {
-    EnqueueString(q, "bb");
-    printQueue(q);
-  }
+//   for(int i = 0; i < 9; i++) {
+//     EnqueueString(q, "bb");
+//     printQueue(q);
+//   }
 
-  printf("\n");
-  PrintQueueStats(q);
-  printf("\n");
+//   printf("\n");
+//   PrintQueueStats(q);
+//   printf("\n");
 
-  for(int i = 0; i < 4; i++) {
-    DequeueString(q);
-    printQueue(q);
-  }
+//   for(int i = 0; i < 4; i++) {
+//     DequeueString(q);
+//     printQueue(q);
+//   }
 
-  printf("\n");
-  PrintQueueStats(q);
-  printf("\n");
+//   printf("\n");
+//   PrintQueueStats(q);
+//   printf("\n");
 
-  for (int i = 0; i < 4; i++) {
-    EnqueueString(q, "cc");
-    printQueue(q);
-  }
+//   for (int i = 0; i < 4; i++) {
+//     EnqueueString(q, "cc");
+//     printQueue(q);
+//   }
 
-  printf("\n");
-  PrintQueueStats(q);
-  printf("\n");
+//   printf("\n");
+//   PrintQueueStats(q);
+//   printf("\n");
 
-  while(!isEmpty(q)) {
-    DequeueString(q);
-    printQueue(q);
-  }
+//   while(!isEmpty(q)) {
+//     DequeueString(q);
+//     printQueue(q);
+//   }
 
-  printf("\n");
-  PrintQueueStats(q);
-  printf("\n");
+//   printf("\n");
+//   PrintQueueStats(q);
+//   printf("\n");
 
-  PrintQueueStats(q);
+//   PrintQueueStats(q);
 
-  return 0;
-}
+//   return 0;
+// }
 
 /** @override */
 Queue * CreateStringQueue(int size) {

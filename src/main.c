@@ -5,5 +5,5 @@
 #include "./types/synchronized_queue.h"
 
 int main(int argc, char **argv) {
-
+  feedInput(NULL, 50);
 }

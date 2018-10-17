@@ -6,10 +6,10 @@
 
 void flushInput();
 
-int main(int argc, char **argv) {
-  // Queue *q = CreateStringQueue(10);
-  feedInput(NULL, 10);
-}
+// int main(int argc, char **argv) {
+//   // Queue *q = CreateStringQueue(10);
+//   feedInput(NULL, 10);
+// }
 
 /** @override */
 void feedInput(Queue *q, int buffSize) {

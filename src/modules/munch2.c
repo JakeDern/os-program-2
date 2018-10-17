@@ -1,30 +1,18 @@
-//#include "../interfaces/munch2.h"
+#include "../interfaces/munch2.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-extern void munchTwo();
+// int main(int argc, char **argv) {
+//         munchTwo(NULL, NULL);
+//         return 0;
+// }
 
-
-int main(int argc, char **argv) {
-
-        munchTwo();
-
-        return 0;
-
-}
-
-
-
-extern void munchTwo(Queue *in, Queue *out ) {
-
-
+void munchTwo(Queue *in, Queue *out ) {
 	while (1) {
-
-	char *string = DequeueString(in);
-
-	printf("Inputed line: %s\n", string);
+		char *string = DequeueString(in);
+		printf("Inputed line: %s\n", string);
 	
 		if (string == NULL) {
 			exit(0);
@@ -37,15 +25,8 @@ extern void munchTwo(Queue *in, Queue *out ) {
 			string[i] = (char)toupper(string[i]);
 
 		}
-
 		EnqueueString(out, string);
-
-
 	}
-	
-	
-	
-
 }
 
 
