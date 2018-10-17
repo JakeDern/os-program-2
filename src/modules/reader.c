@@ -8,37 +8,51 @@ void flushInput();
 
 int main(int argc, char **argv) {
   // Queue *q = CreateStringQueue(10);
-  feedInput(NULL, 10);
+  feedInput(NULL, 50);
 }
 
 /** @override */
 void feedInput(Queue *q, int buffSize) {
-  char *buff = malloc(sizeof(char) * buffSize);
+  char *buff;
+  if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
   int charCount = 0;
   int lineCount = 0;
 
   while(1) {
     char c = getchar();
-    buff[charCount] = c;
     charCount++;
-    if (c == '\n') {
-       // TODO enqueue string
-      printf("line %d: %s", lineCount, buff);
-      free(buff);
-      buff = malloc(sizeof(char) * buffSize);
-      lineCount++;
-      charCount = 0;
-    } else if (c == EOF) {
-      printf("line %d: %s", lineCount, buff);
-      break;
-    }
-    
-    if(charCount == buffSize) {
-      printf("Input too long, flushing buffer\n");
+
+    if(charCount == buffSize + 1) {
+      printf("Input too long, flushing stdin \n");
       flushInput();
       charCount = 0;
+      free(buff);
+      if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
+    } else {
+      if(c == '\n') {
+        buff[charCount] = '\0';
+        // Printing out with %s doesnt work
+        printf("line %d: %s\n", lineCount, buff);
+        // but checking manually, all of the chars are there
+        for(int i = 0; i < charCount; i++) {
+          printf("%c", buff[i]);
+        }
+        printf("\n");
+        // TODO enqueue
+        charCount = 0;
+        lineCount++;
+        free(buff);
+        if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
+      } else if (c == EOF) {
+        buff[charCount] = '\0';
+        printf("line %d: %s\n", lineCount, buff);
+        free(buff);
+        break;
+      } else {
+        buff[charCount] = c;
+        // printf("%c\n", buff[charCount]);
+      }
     }
-
   }
   // TODO enque null pointer
 }
