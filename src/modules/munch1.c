@@ -8,18 +8,29 @@
 // }
 
 void munchOne(Queue *in, Queue *out) {
-  char *str = malloc(30);
-  strcpy(str, "my string with spaces");
+  // int strSize = strlen(str);
+  // for (int i = 0; i < strSize; i++) {
+  //   if (str[i] == ' ') {
+  //     str[i] = '*';
+  //   }
+  // }
 
-  if(str == NULL) {
-    // TODO p_thread_exit
-  }
-
-  int strSize = strlen(str);
-  for (int i = 0; i < strSize; i++) {
-    if (str[i] == ' ') {
-      str[i] = '*';
+  while (1) {
+    char *next = DequeueString(in);
+    if (next == NULL) {
+      // TODO pthread exit
+      EnqueueString(out, NULL);
+      break;
     }
+
+    int idx = 0;
+    char c;
+    while ( (c = next[idx]) != '\0') {
+      if (c == ' ') {
+        next[idx] = '*';
+      }
+      idx++;
+    }
+    EnqueueString(out, next);
   }
-  printf("%s\n", str);
 }
