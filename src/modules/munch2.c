@@ -12,18 +12,17 @@
 void munchTwo(Queue *in, Queue *out ) {
 	while (1) {
 		char *string = DequeueString(in);
-		printf("Inputed line: %s\n", string);
-	
 		if (string == NULL) {
-			exit(0);
+			// TODO pthread exit
+			EnqueueString(out, NULL);
+			break;
 		}
 		
-		int len	= strlen(string);
-		printf("str len: %d\n", len);
-		for (int i = 0; i < len; i++) {
-			
-			string[i] = (char)toupper(string[i]);
-
+		int idx = 0;
+		char c;
+		while ( (c = string[idx]) != '\0') {
+			string[idx] = (char)toupper(c);
+			idx++;
 		}
 		EnqueueString(out, string);
 	}

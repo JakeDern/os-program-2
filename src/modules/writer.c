@@ -3,11 +3,16 @@
 #include <stdlib.h>
 
 
-extern void writeStrings(Queue *q) {
+void writeStrings(Queue *q) {
 	char* string;
-
 	while (1) {
 		string = DequeueString(q);
+
+		if(string == NULL) {
+			// TODO pthread exit
+			break;
+		}
+
 		printf("%s\n", string);
 		free(string);
 	}
