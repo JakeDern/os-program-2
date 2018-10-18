@@ -17,5 +17,3 @@ void writeStrings(Queue *q) {
 		free(string);
 	}
 }
-
-
