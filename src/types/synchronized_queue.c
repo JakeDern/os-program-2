@@ -89,7 +89,7 @@ void EnqueueString(Queue *q, char *string) {
 
   //Enqueue
   if (isEmpty(q)) {
-    (q->items)[0] = string;
+    (q->items)[q->head] = string;
   } else {
     int tailIdx = nextIndex(q->tail, q->size);
     (q->items)[tailIdx] = string;
