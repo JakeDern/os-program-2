@@ -15,7 +15,7 @@ void munchTwo(Queue *in, Queue *out ) {
 		if (string == NULL) {
 			// TODO pthread exit
 			EnqueueString(out, NULL);
-			break;
+			pthread_exit(0);
 		}
 		
 		int idx = 0;

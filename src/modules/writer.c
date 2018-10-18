@@ -10,7 +10,7 @@ void writeStrings(Queue *q) {
 
 		if(string == NULL) {
 			// TODO pthread exit
-			break;
+			pthread_exit(0);
 		}
 
 		printf("%s\n", string);
