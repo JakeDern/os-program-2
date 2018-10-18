@@ -27,7 +27,10 @@ void feedInput(Queue *q, int buffSize) {
       // flush input
       printf("Input too long, flushing stdin \n");
       while ( (c = getchar()) != '\n' && c != EOF) {}
-      if (c == EOF) { break; }
+      if (c == EOF) {
+        free(buff); 
+        break;
+      }
       charCount = 0;
 
       // free buff and allocate new string

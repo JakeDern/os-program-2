@@ -1,6 +1,8 @@
 #ifndef _SYNCQUEUE
 #define _SYNCQUEUE
 
+#include <pthread.h>
+
 typedef struct Queue {
     char **items;
     int enqueueCount;
@@ -10,6 +12,9 @@ typedef struct Queue {
     int head;
     int tail;
     int size;
+    pthread_mutex_t *mutex;
+    pthread_cond_t *enqueueLine;
+    pthread_cond_t *dequeueLine;
     // TODO determine synchronization vars needed for the struct
 } Queue;
 
