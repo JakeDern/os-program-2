@@ -65,6 +65,7 @@ Queue * CreateStringQueue(int size) {
   q->head = 0;
   q->tail = 0;
   q->size = size;
+  q->numItems = 0;
   q->mutex = malloc(sizeof(pthread_mutex_t));
   q->enqueueLine = malloc(sizeof(pthread_cond_t));
   q->dequeueLine = malloc(sizeof(pthread_cond_t));
@@ -88,12 +89,14 @@ void EnqueueString(Queue *q, char *string) {
 
   //Enqueue
   if (isEmpty(q)) {
-    (q->items)[0] = string;
+    (q->items)[q->head] = string;
   } else {
     int tailIdx = nextIndex(q->tail, q->size);
     (q->items)[tailIdx] = string;
     q->tail = tailIdx;
   }
+
+  (q->numItems)++;
 
   // notify dequeue and free the lock
   pthread_cond_signal((q->dequeueLine));
@@ -111,6 +114,7 @@ char * DequeueString(Queue *q) {
   // remove string
   int headIdx = (getSize(q) == 1) ? q->head : nextIndex(q->head, q->size);
   char *string = (q->items)[q->head];
+  (q->numItems)--;
 
   // null out pointer
   (q->items)[q->head] = NULL;
@@ -167,14 +171,7 @@ void FreeQueue(Queue *q) {
  * queue
  * */
 int getSize(Queue *q) {
-  int headIdx = q->head;
-  int tailIdx = q->tail;
-  int size = q->size;
-
-  if (isEmpty(q)) return 0;
-
-  int diff = headIdx - tailIdx;
-  return (diff <= 0) ? ((-1 * diff) + 1) : ((size - diff) + 1);
+  return q->numItems;
 }
 
 /**
@@ -183,10 +180,7 @@ int getSize(Queue *q) {
  * @return 1 if and only if this queue is empty, 0 otherwise
  * */
 int isEmpty(Queue *q) {
-  int head = q->head;
-  char *headString = (q->items)[head];
-
-  return headString == NULL;
+ return q->numItems == 0;
 }
 
 
@@ -196,10 +190,7 @@ int isEmpty(Queue *q) {
  * @return 1 if and only if this queue is full, 0 otherwise
  * */
 int isFull(Queue *q) {
-  int tail = q->tail;
-  int head = q->head;
-  int size = q->size;
-  return nextIndex(tail, size) == head;
+  return q->numItems == q->size;
 }
 
 /**

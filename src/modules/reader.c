@@ -40,26 +40,25 @@ void feedInput(Queue *q, int buffSize) {
       buff[charCount - 1] = c;
       // newline indicates more strings to come
       if(c == '\n') {
-        buff[charCount] = '\0';
-        printf("line %d: %s", lineCount, buff);
+        buff[charCount - 1] = '\0';
+        // printf("line %d: %s", lineCount, buff);
         // TODO enqueue
+        EnqueueString(q, buff);
         charCount = 0;
         lineCount++;
-
-        free(buff);
         if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
       // EOF indicates no more strings
       } else if (c == EOF) {
         // TODO decide to overrite EOF with null terminator, or
         // include it in the string
-        buff[charCount] = '\0';
-        printf("line %d: %s\n", lineCount, buff);
-
-        free(buff);
+        buff[charCount - 1] = '\0';
+        // printf("line %d: %s\n", lineCount, buff);
+        EnqueueString(q, buff);
         break;
       }
     }
   }
   // TODO enque null pointer
+  EnqueueString(q, NULL);
 }
 
