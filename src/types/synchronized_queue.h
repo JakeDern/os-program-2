@@ -12,6 +12,7 @@ typedef struct Queue {
     int head;
     int tail;
     int size;
+    int numItems;
     pthread_mutex_t *mutex;
     pthread_cond_t *enqueueLine;
     pthread_cond_t *dequeueLine;
