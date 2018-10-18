@@ -2,14 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+/** @override */
 void writeStrings(Queue *q) {
 	char* string;
 	while (1) {
 		string = DequeueString(q);
 
 		if(string == NULL) {
-			// TODO pthread exit
 			pthread_exit(0);
 		}
 

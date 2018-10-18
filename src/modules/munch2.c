@@ -4,16 +4,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-// int main(int argc, char **argv) {
-//         munchTwo(NULL, NULL);
-//         return 0;
-// }
-
+/** @override */
 void munchTwo(Queue *in, Queue *out ) {
 	while (1) {
 		char *string = DequeueString(in);
 		if (string == NULL) {
-			// TODO pthread exit
 			EnqueueString(out, NULL);
 			pthread_exit(0);
 		}

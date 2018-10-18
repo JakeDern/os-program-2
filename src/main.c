@@ -18,21 +18,18 @@ typedef struct ThreadParams {
 } ThreadParams;
 
 int main(int argc, char **argv) {
-  printf("start main\n");
   // allocate shared queues
   Queue *readerOut = CreateStringQueue(QUEUE_SIZE);
   Queue *munchOneOut = CreateStringQueue(QUEUE_SIZE);
   Queue *munchTwoOut = CreateStringQueue(QUEUE_SIZE);
 
   // create params for each thread
-  printf("create params\n");
   ThreadParams *readerParams = malloc(sizeof(ThreadParams));
   ThreadParams *munchOneParams = malloc(sizeof(ThreadParams)); 
   ThreadParams *munchTwoParams = malloc(sizeof(ThreadParams)); 
   ThreadParams *writerParams = malloc(sizeof(ThreadParams)); 
 
   // link up queues
-  printf("link queues\n"); 
   readerParams->qout = readerOut;
   munchOneParams->qin = readerOut;
   munchOneParams->qout = munchOneOut;
@@ -42,7 +39,6 @@ int main(int argc, char **argv) {
 
 
   // create threads 
-  printf("create threads\n");
   pthread_t reader, munch1, munch2, writer;
   int readerRet, munch1Ret, munch2Ret, writerRet;
   readerRet = pthread_create(&reader, NULL, &readStart, (void*) readerParams);
@@ -50,37 +46,37 @@ int main(int argc, char **argv) {
   munch2Ret = pthread_create(&munch2, NULL, &munchTwoStart, (void*) munchTwoParams);
   writerRet = pthread_create(&writer, NULL, &writeStart, (void*) writerParams);
 
-  printf("join threads\n");
+  // wait for all threads to exit
   pthread_join(reader, NULL);
   pthread_join(munch1, NULL);
   pthread_join(munch2, NULL);
   pthread_join(writer, NULL);
 
+  // print stats
+  printf("Reader / Munch1 queue:\n");
   PrintQueueStats(readerOut);
+  printf("Munch1 / Munch2 queue:\n");
   PrintQueueStats(munchOneOut);
+  printf("Munch2 / Writer queue:\n");
   PrintQueueStats(munchTwoOut);
 }
 
 void readStart(void *args) {
-  printf("read start\n");
   ThreadParams *params = (ThreadParams *) args;
   feedInput(params->qout, BUFF_SIZE);
 }
 
 void munchOneStart(void *args) {
-  printf("munch1 start\n");
   ThreadParams *params = (ThreadParams *) args;
   munchOne(params->qin, params->qout);
 }
 
 void munchTwoStart(void *args) {
-  printf("munch2 start\n");
   ThreadParams *params = (ThreadParams *) args;
   munchTwo(params->qin, params->qout);
 }
 
 void writeStart(void *args) {
-  printf("write start\n");
   ThreadParams *params = (ThreadParams *) args;
   writeStrings(params->qin);
 }

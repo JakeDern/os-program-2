@@ -10,58 +10,18 @@ int isFull(Queue *q);
 int getSize(Queue *q);
 void printQueue(Queue *q);
 
-// int main(int argc, char **argv) {
-//   Queue *q = CreateStringQueue(10);
-//   char *s = malloc(3);
-//   strcpy(s, "aa");
-//   EnqueueString(q, s);
-
-//   for(int i = 0; i < 9; i++) {
-//     EnqueueString(q, "bb");
-//     printQueue(q);
-//   }
-
-//   printf("\n");
-//   PrintQueueStats(q);
-//   printf("\n");
-
-//   for(int i = 0; i < 4; i++) {
-//     DequeueString(q);
-//     printQueue(q);
-//   }
-
-//   printf("\n");
-//   PrintQueueStats(q);
-//   printf("\n");
-
-//   for (int i = 0; i < 4; i++) {
-//     EnqueueString(q, "cc");
-//     printQueue(q);
-//   }
-
-//   printf("\n");
-//   PrintQueueStats(q);
-//   printf("\n");
-
-//   while(!isEmpty(q)) {
-//     DequeueString(q);
-//     printQueue(q);
-//   }
-
-//   printf("\n");
-//   PrintQueueStats(q);
-//   printf("\n");
-
-//   PrintQueueStats(q);
-
-//   return 0;
-// }
-
 /** @override */
 Queue * CreateStringQueue(int size) {
   // TODO sanity check on size
-  Queue *q = malloc(sizeof(Queue));
-  q->items = malloc(sizeof(char*) * size);
+  Queue *q;
+  if ( (q = malloc(sizeof(Queue))) == NULL ) {
+      perror("\n");
+      exit(1);
+  }
+  if ( (q->items = malloc(sizeof(char*) * size)) == NULL ) {
+      perror("\n");
+      exit(1);
+  }
   q->head = 0;
   q->tail = 0;
   q->size = size;
@@ -71,9 +31,12 @@ Queue * CreateStringQueue(int size) {
   q->dequeueCount = 0;
   q->enqueueBlockCount = 0;
 
-  q->mutex = malloc(sizeof(pthread_mutex_t));
-  q->enqueueLine = malloc(sizeof(pthread_cond_t));
-  q->dequeueLine = malloc(sizeof(pthread_cond_t));
+  if ( ((q->mutex = malloc(sizeof(pthread_mutex_t))) == NULL)
+    || ((q->enqueueLine = malloc(sizeof(pthread_cond_t))) == NULL)
+    || ((q->dequeueLine = malloc(sizeof(pthread_cond_t))) == NULL) ) {
+    perror("\n");
+    exit(1);
+  }
   
   pthread_mutex_init(q->mutex, NULL);
   pthread_cond_init(q->enqueueLine, NULL);
@@ -88,7 +51,6 @@ void EnqueueString(Queue *q, char *string) {
   // grab the lock and block if full
   pthread_mutex_lock((q->mutex));
   if (isFull(q)) {
-    // printf("ERROR enqueue on full queue\n");
     (q->enqueueBlockCount)++;
     pthread_cond_wait((q->enqueueLine), (q->mutex));
   }
@@ -102,8 +64,10 @@ void EnqueueString(Queue *q, char *string) {
     q->tail = tailIdx;
   }
 
+  // inc items and log enqueue
   (q->numItems)++;
   (q->enqueueCount)++;
+
   // notify dequeue and free the lock
   pthread_cond_signal((q->dequeueLine));
   pthread_mutex_unlock((q->mutex));
@@ -137,8 +101,6 @@ char * DequeueString(Queue *q) {
 
 /** @override */
 void PrintQueueStats(Queue *q) {
-  // TODO mutual exclusion
-  // TODO implement
   pthread_mutex_lock((q->mutex));
   fprintf(stderr, "Enqueues: %d, Dequeues: %d, Enqueue Blocks: %d, Dequeue Blocks: %d\n",
       q->enqueueCount, q->dequeueCount, q->enqueueBlockCount, q->dequeueBlockCount);

@@ -6,11 +6,6 @@
 
 void flushInput();
 
-// int main(int argc, char **argv) {
-//   // Queue *q = CreateStringQueue(10);
-//   feedInput(NULL, 10);
-// }
-
 /** @override */
 void feedInput(Queue *q, int buffSize) {
   char *buff;
@@ -25,7 +20,7 @@ void feedInput(Queue *q, int buffSize) {
     // no room left
     if(charCount == buffSize) {
       // flush input
-      printf("Input too long, flushing stdin \n");
+      fprintf(stderr, "Input too long, flushing stdin \n");
       while ( (c = getchar()) != '\n' && c != EOF) {}
       if (c == EOF) {
         free(buff); 
@@ -41,24 +36,18 @@ void feedInput(Queue *q, int buffSize) {
       // newline indicates more strings to come
       if(c == '\n') {
         buff[charCount - 1] = '\0';
-        // printf("line %d: %s", lineCount, buff);
-        // TODO enqueue
         EnqueueString(q, buff);
         charCount = 0;
         lineCount++;
         if ( (buff = malloc(sizeof(char) * buffSize)) == NULL ) { exit(1); }
       // EOF indicates no more strings
       } else if (c == EOF) {
-        // TODO decide to overrite EOF with null terminator, or
-        // include it in the string
         buff[charCount - 1] = '\0';
-        // printf("line %d: %s\n", lineCount, buff);
         EnqueueString(q, buff);
         break;
       }
     }
   }
-  // TODO enque null pointer
   EnqueueString(q, NULL);
   pthread_exit(0);
 }
