@@ -60,5 +60,6 @@ void feedInput(Queue *q, int buffSize) {
   }
   // TODO enque null pointer
   EnqueueString(q, NULL);
+  pthread_exit(0);
 }
 
