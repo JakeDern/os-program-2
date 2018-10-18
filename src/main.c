@@ -56,7 +56,9 @@ int main(int argc, char **argv) {
   pthread_join(munch2, NULL);
   pthread_join(writer, NULL);
 
-  printf("exit statuses %d %d %d %d\n", readerRet, munch1Ret, munch2Ret, writerRet);
+  PrintQueueStats(readerOut);
+  PrintQueueStats(munchOneOut);
+  PrintQueueStats(munchTwoOut);
 }
 
 void readStart(void *args) {

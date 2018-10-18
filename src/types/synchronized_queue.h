@@ -8,7 +8,7 @@ typedef struct Queue {
     int enqueueCount;
     int dequeueCount;
     int enqueueBlockCount;
-    int dequeuBlockCount;
+    int dequeueBlockCount;
     int head;
     int tail;
     int size;

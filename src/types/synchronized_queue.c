@@ -67,7 +67,7 @@ Queue * CreateStringQueue(int size) {
   q->size = size;
   q->numItems = 0;
   q->enqueueCount = 0;
-  q->dequeuBlockCount = 0;
+  q->dequeueBlockCount = 0;
   q->dequeueCount = 0;
   q->enqueueBlockCount = 0;
 
@@ -114,7 +114,7 @@ char * DequeueString(Queue *q) {
   // grab lock and block if empty
   pthread_mutex_lock((q->mutex));
   if (isEmpty(q)) {
-    (q->dequeuBlockCount)++;
+    (q->dequeueBlockCount)++;
     pthread_cond_wait((q->dequeueLine), (q->mutex));
   }
 
@@ -122,7 +122,7 @@ char * DequeueString(Queue *q) {
   int headIdx = (getSize(q) == 1) ? q->head : nextIndex(q->head, q->size);
   char *string = (q->items)[q->head];
   (q->numItems)--;
-  (q->dequeueCount)--;
+  (q->dequeueCount)++;
 
   // null out pointer
   (q->items)[q->head] = NULL;
@@ -140,8 +140,8 @@ void PrintQueueStats(Queue *q) {
   // TODO mutual exclusion
   // TODO implement
   pthread_mutex_lock((q->mutex));
-  printf("First item: %s, head: %d, tail: %d, size: %d\n",
-      (q->items)[0], q->head, q->tail, getSize(q));
+  fprintf(stderr, "Enqueues: %d, Dequeues: %d, Enqueue Blocks: %d, Dequeue Blocks: %d\n",
+      q->enqueueCount, q->dequeueCount, q->enqueueBlockCount, q->dequeueBlockCount);
   pthread_mutex_unlock((q->mutex));
 }
 
