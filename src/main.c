@@ -8,6 +8,7 @@
 #include "./munch2.h"
 #include "./writer.h"
 #include "./synchronized_queue.h"
+#include <stdlib.h>
 
 const int BUFF_SIZE = 1024;
 const int QUEUE_SIZE = 10;
@@ -50,10 +51,10 @@ int main(int argc, char **argv) {
   // create threads 
   pthread_t reader, munch1, munch2, writer;
   int readerRet, munch1Ret, munch2Ret, writerRet;
-  readerRet = pthread_create(&reader, NULL, &readStart, (void*) readerParams);
-  munch1Ret = pthread_create(&munch1, NULL, &munchOneStart, (void*) munchOneParams);
-  munch2Ret = pthread_create(&munch2, NULL, &munchTwoStart, (void*) munchTwoParams);
-  writerRet = pthread_create(&writer, NULL, &writeStart, (void*) writerParams);
+  readerRet = pthread_create(&reader, NULL, (void*) &readStart, (void*) readerParams);
+  munch1Ret = pthread_create(&munch1, NULL, (void*) &munchOneStart, (void*) munchOneParams);
+  munch2Ret = pthread_create(&munch2, NULL, (void*) &munchTwoStart, (void*) munchTwoParams);
+  writerRet = pthread_create(&writer, NULL, (void*) &writeStart, (void*) writerParams);
 
   // wait for all threads to exit
   pthread_join(reader, NULL);
