@@ -20,7 +20,7 @@ void feedInput(Queue *q, int buffSize) {
     // no room left
     if(charCount == buffSize) {
       // flush input
-      fprintf(stderr, "Input too long, flushing stdin \n");
+      fprintf(stderr, "Input too long, flushing stdin and continuing \n");
       while ( (c = getchar()) != '\n' && c != EOF) {}
       if (c == EOF) {
         free(buff); 
