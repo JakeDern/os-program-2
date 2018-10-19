@@ -3,11 +3,11 @@
  * @author Alex Dallman netid: adallman2 cslogin: adallman
  */
 
-#include "./interfaces/reader.h"
-#include "./interfaces/munch1.h"
-#include "./interfaces/munch2.h"
-#include "./interfaces/writer.h"
-#include "./types/synchronized_queue.h"
+#include "./reader.h"
+#include "./munch1.h"
+#include "./munch2.h"
+#include "./writer.h"
+#include "./synchronized_queue.h"
 
 const int BUFF_SIZE = 1024;
 const int QUEUE_SIZE = 10;
