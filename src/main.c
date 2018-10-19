@@ -50,11 +50,10 @@ int main(int argc, char **argv) {
 
   // create threads 
   pthread_t reader, munch1, munch2, writer;
-  int readerRet, munch1Ret, munch2Ret, writerRet;
-  readerRet = pthread_create(&reader, NULL, (void*) &readStart, (void*) readerParams);
-  munch1Ret = pthread_create(&munch1, NULL, (void*) &munchOneStart, (void*) munchOneParams);
-  munch2Ret = pthread_create(&munch2, NULL, (void*) &munchTwoStart, (void*) munchTwoParams);
-  writerRet = pthread_create(&writer, NULL, (void*) &writeStart, (void*) writerParams);
+  pthread_create(&reader, NULL, (void*) &readStart, (void*) readerParams);
+  pthread_create(&munch1, NULL, (void*) &munchOneStart, (void*) munchOneParams);
+  pthread_create(&munch2, NULL, (void*) &munchTwoStart, (void*) munchTwoParams);
+  pthread_create(&writer, NULL, (void*) &writeStart, (void*) writerParams);
 
   // wait for all threads to exit
   pthread_join(reader, NULL);
