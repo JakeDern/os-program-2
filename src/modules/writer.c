@@ -18,7 +18,7 @@ void writeStrings(Queue *q) {
 			fprintf(stderr, "String processed: %d\n", cnt);
 			pthread_exit(0);
 		}
-
+		cnt++;
 		printf("%s", string);
 		free(string);
 	}
