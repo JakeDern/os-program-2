@@ -3,7 +3,7 @@
  * @author Alex Dallman netid: adallman2 cslogin: adallman
  */
 
-include "./synchronized_queue.h"
+#include "./synchronized_queue.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
