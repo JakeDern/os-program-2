@@ -1,3 +1,8 @@
+/**
+ * @author Jake Dern netid: dern2 cslogin: dern
+ * @author Alex Dallman netid: adallman2 cslogin: adallman
+ */
+
 #include "./interfaces/reader.h"
 #include "./interfaces/munch1.h"
 #include "./interfaces/munch2.h"

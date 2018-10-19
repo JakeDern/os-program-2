@@ -1,3 +1,8 @@
+/**
+ * @author Jake Dern netid: dern2 cslogin: dern
+ * @author Alex Dallman netid: adallman2 cslogin: adallman
+ */
+
 #include "../interfaces/reader.h"
 #include "../types/synchronized_queue.h"
 #include <stdlib.h>

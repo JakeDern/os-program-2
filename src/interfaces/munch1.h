@@ -1,3 +1,8 @@
+/**
+ * @author Jake Dern netid: dern2 cslogin: dern
+ * @author Alex Dallman netid: adallman2 cslogin: adallman
+ */
+
 #ifndef _MUNCHONE
 #define _MUNCHONE
 

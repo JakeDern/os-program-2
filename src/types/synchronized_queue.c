@@ -1,4 +1,9 @@
-#include "./synchronized_queue.h"
+/**
+ * @author Jake Dern netid: dern2 cslogin: dern
+ * @author Alex Dallman netid: adallman2 cslogin: adallman
+ */
+
+include "./synchronized_queue.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
