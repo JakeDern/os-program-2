@@ -62,11 +62,11 @@ int main(int argc, char **argv) {
   pthread_join(writer, NULL);
 
   // print stats
-  printf("Reader / Munch1 queue:\n");
+  fprintf(stderr, "Reader out queue:\n");
   PrintQueueStats(readerOut);
-  printf("Munch1 / Munch2 queue:\n");
+  fprintf(stderr, "Munch1 out queue:\n");
   PrintQueueStats(munchOneOut);
-  printf("Munch2 / Writer queue:\n");
+  fprintf(stderr, "Munch2 out queue:\n");
   PrintQueueStats(munchTwoOut);
 }
 

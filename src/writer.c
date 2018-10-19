@@ -15,11 +15,11 @@ void writeStrings(Queue *q) {
 		string = DequeueString(q);
 
 		if(string == NULL) {
-			fprintf(stderr, "String processed: %d\n", cnt);
+			fprintf(stderr, "Strings processed: %d\n", cnt);
 			pthread_exit(0);
 		}
 		cnt++;
-		printf("%s\n", string);
+		printf("%s", string);
 		free(string);
 	}
 }
