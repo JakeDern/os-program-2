@@ -29,10 +29,14 @@ int main(int argc, char **argv) {
   Queue *munchTwoOut = CreateStringQueue(QUEUE_SIZE);
 
   // create params for each thread
-  ThreadParams *readerParams = malloc(sizeof(ThreadParams));
-  ThreadParams *munchOneParams = malloc(sizeof(ThreadParams)); 
-  ThreadParams *munchTwoParams = malloc(sizeof(ThreadParams)); 
-  ThreadParams *writerParams = malloc(sizeof(ThreadParams)); 
+  ThreadParams *readerParams, *munchOneParams, *munchTwoParams, *writerParams;
+  if ( (readerParams = malloc(sizeof(ThreadParams))) == NULL 
+    || (munchOneParams = malloc(sizeof(ThreadParams))) == NULL 
+    || (munchTwoParams = malloc(sizeof(ThreadParams))) == NULL 
+    || (writerParams = malloc(sizeof(ThreadParams))) == NULL ) {
+      perror("");
+      exit(1);
+    }
 
   // link up queues
   readerParams->qout = readerOut;
