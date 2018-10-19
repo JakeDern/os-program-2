@@ -7,7 +7,7 @@
 #define _WRITER
 
 #include <stdio.h>
-#include "../types/synchronized_queue.h"
+#include "./synchronized_queue.h"
 
 /**
  * Instructs the writer to begin writing strings to

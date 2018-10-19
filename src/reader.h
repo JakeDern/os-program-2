@@ -7,7 +7,7 @@
 #define _READER
 
 #include <stdio.h>
-#include "../types/synchronized_queue.h"
+#include "./synchronized_queue.h"
 
 /**
  * Instructs the reader to begin feeding line information

@@ -3,8 +3,8 @@
  * @author Alex Dallman netid: adallman2 cslogin: adallman
  */
 
-#include "../interfaces/reader.h"
-#include "../types/synchronized_queue.h"
+#include ".//reader.h"
+#include "./synchronized_queue.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

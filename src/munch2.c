@@ -3,7 +3,7 @@
  * @author Alex Dallman netid: adallman2 cslogin: adallman
  */
 
-#include "../interfaces/munch2.h"
+#include ".//munch2.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

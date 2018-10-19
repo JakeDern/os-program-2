@@ -6,7 +6,7 @@
 #ifndef _MUNCHTWO
 #define _MUNCHTWO
 
-#include "../types/synchronized_queue.h"
+#include "./synchronized_queue.h"
 
 /**
  * Begins processing strings from the incoming queue
