@@ -19,7 +19,7 @@ void writeStrings(Queue *q) {
 			pthread_exit(0);
 		}
 		cnt++;
-		printf("%s\n", string);
+		printf("%s", string);
 		free(string);
 	}
 }

@@ -40,7 +40,7 @@ void feedInput(Queue *q, int buffSize) {
       buff[charCount - 1] = c;
       // newline indicates more strings to come
       if(c == '\n') {
-        buff[charCount - 1] = '\0';
+        buff[charCount] = '\0';
         EnqueueString(q, buff);
         charCount = 0;
         lineCount++;
